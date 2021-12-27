@@ -13,9 +13,8 @@ import java.util.Locale;
 public class PCInfo {
 
     private static final String ERROR = "ERROR, FILE NOT FOUND";
-    private static SystemInfo systemInfo = new SystemInfo();
-    private static HardwareAbstractionLayer hardware = systemInfo.getHardware();
-    private static final DB dataBase = new DB();
+    private static final SystemInfo systemInfo = new SystemInfo();
+    private static final HardwareAbstractionLayer hardware = systemInfo.getHardware();
 
     //Get Windows version(Vista/XP/7/8/10)
     public static String getWindowsVersion ()
@@ -52,21 +51,21 @@ public class PCInfo {
         String CPUName = processor.toString();
         CPUName = deleteBrackets(CPUName);
         recordDataBase();
-        CPUName= nameContains(CPUName, dataBase.getCPUList());
+        CPUName= nameContains(CPUName, DB.getCPUList());
 
         return CPUName;
     }
 
     //Get GPU(-s) name(-s)
     public static ArrayList<String> getGPUInfo () throws SQLException, IOException {
-        List<GraphicsCard> card = (List<GraphicsCard>) hardware.getGraphicsCards();
-        ArrayList <String> card_list = new ArrayList<String>();
+        List<GraphicsCard> card = hardware.getGraphicsCards();
+        ArrayList <String> card_list = new ArrayList<>();
         recordDataBase();
-        for(int i=0;i<card.size();i++)
+        for (GraphicsCard inner : card)
         {
-            String GPUName = card.get(i).toString();
+            String GPUName = inner.toString();
             GPUName = deleteBrackets(GPUName);
-            GPUName = nameContains(GPUName, dataBase.getGPUList());
+            GPUName = nameContains(GPUName, DB.getGPUList());
             if(!GPUName.equals(ERROR))
             {
                 card_list.add(GPUName);
@@ -91,7 +90,7 @@ public class PCInfo {
     //delete all "(...)"
     private static String deleteBrackets (String str)
     {
-        while(str.indexOf("(")!=-1)
+        while(str.contains("("))
         {
             str = str.substring(0, str.indexOf("(")) + str.substring(str.indexOf(")") + 1);
         }
@@ -111,10 +110,10 @@ public class PCInfo {
                 res = line;
             }
         }
-        return (res==""?ERROR:res);
+        return (res.equals("")?ERROR:res);
     }
 
     private static void recordDataBase() throws SQLException, IOException {
-        dataBase.record();
+        DB.record();
     }
 }

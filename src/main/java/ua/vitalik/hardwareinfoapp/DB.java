@@ -1,17 +1,17 @@
 package ua.vitalik.hardwareinfoapp;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class DB {
     private static Connection connection;
-    private static ArrayList<String> gpu_list = new ArrayList<>();
-    private static ArrayList<String> cpu_list = new ArrayList<>();
+    private static final ArrayList<String> gpu_list = new ArrayList<>();
+    private static final ArrayList<String> cpu_list = new ArrayList<>();
     private static final String database = "src/main/resources/db/sqlite.db";
 
     //record all info from db to -> ArrayLists
-    public void record() throws IOException, SQLException {
+    public static void record() throws SQLException {
 
         ResultSet cpu_results = selectDBTable("cpu_info");
         ResultSet gpu_results = selectDBTable("gpu_info");
@@ -37,11 +37,10 @@ public class DB {
     }
 
     //select data from tables
-    public static ResultSet selectDBTable(String str) throws SQLException {
+    private static ResultSet selectDBTable(String str) throws SQLException {
         connection = DriverManager.getConnection("jdbc:sqlite:" + database);
         Statement statement = connection.createStatement();
-        ResultSet result = statement.executeQuery("SELECT * FROM " + str);
-        return result;
+        return statement.executeQuery("SELECT * FROM " + str);
     }
 
 }

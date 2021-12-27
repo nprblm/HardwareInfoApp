@@ -4,17 +4,14 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class MainWindow extends Application {
-    PCInfo information = new PCInfo();
     @Override
-    public void start(Stage stage) throws IOException, SQLException {
+    public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("mainWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
         stage.setTitle("Hardware Info App");
@@ -22,7 +19,6 @@ public class MainWindow extends Application {
         Image icon = new Image(new FileInputStream("src/main/resources/images/program_icon.png"));
         stage.getIcons().add(icon);
         stage.show();
-
     }
 
     public static void main(String[] args) {
