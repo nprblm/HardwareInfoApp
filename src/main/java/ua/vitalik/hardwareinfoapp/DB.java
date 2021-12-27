@@ -12,7 +12,6 @@ public class DB {
 
     //record all info from db to -> ArrayLists
     public static void record() throws SQLException {
-
         ResultSet cpu_results = selectDBTable("cpu_info");
         ResultSet gpu_results = selectDBTable("gpu_info");
 

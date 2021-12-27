@@ -50,7 +50,7 @@ public class PCInfo {
         CentralProcessor processor = hardware.getProcessor();
         String CPUName = processor.toString();
         CPUName = deleteBrackets(CPUName);
-        recordDataBase();
+        DB.record();
         CPUName= nameContains(CPUName, DB.getCPUList());
 
         return CPUName;
@@ -60,7 +60,7 @@ public class PCInfo {
     public static ArrayList<String> getGPUInfo () throws SQLException, IOException {
         List<GraphicsCard> card = hardware.getGraphicsCards();
         ArrayList <String> card_list = new ArrayList<>();
-        recordDataBase();
+        DB.record();
         for (GraphicsCard inner : card)
         {
             String GPUName = inner.toString();
@@ -113,7 +113,4 @@ public class PCInfo {
         return (res.equals("")?ERROR:res);
     }
 
-    private static void recordDataBase() throws SQLException, IOException {
-        DB.record();
-    }
 }
